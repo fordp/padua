@@ -1,0 +1,71 @@
+<html>
+    <head>
+        {% block stylesheets %}
+            <link href="/css/bank.css" rel="stylesheet" />
+        {% endblock %}
+    </head>
+    <body>
+        <h1>Transaction Display</h1>
+        <p>You can upload your file here. This file needs to be in csv format.</p>
+
+        <div>
+            <div>
+                <div>
+                    {{ form_start(form, { attr: { 'accept-charset' : 'utf-8' }}) }}
+                    <div id="file">
+                        {{ form_label(form.upload_file) }}
+                        {{ form_widget(form.upload_file) }}
+                        {{ form_errors(form.upload_file) }}
+                    </div>
+                    <div id="button">
+                        {{ form_widget(form.send, {'label': "Upload File"}) }}
+                    </div>
+                    {{ form_rest(form) }}
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+
+        {% if displayTransactions == true %}
+            <div id="data-table">
+                <table>
+                    <tr>
+                        <th>Date</th>
+                        <th>Transaction Code</th>
+                        <th>Valid Transaction?</th>
+                        <th>Customer Number</th>
+                        <th style="text-align: left; padding-left: 15px;">Reference</th>
+                        <th>Amount</th>
+                    </tr>
+
+                    {% for transaction in transactions %}
+                        <tr>
+                            <td>
+                                {{transaction.getDate()|date('Y-m-d H:i:s')}}
+                            </td>
+                            <td>
+                                {{transaction.getTransactionCode()}}
+                            </td>
+                            <td>
+                                {{ verifyCode(transaction.getTransactionCode()) }}
+                            </td>
+                            <td>
+                                {{transaction.getCustomerNumber()}}
+                            </td>
+                            <td style="text-align: left; padding-left: 15px;">
+                                {{transaction.getReference()}}
+                            </td>
+                            <td 
+                                {% if isCr(transaction.getAmount()) == true %}
+                                    style="color: red;"
+                                {% endif %}
+                            >
+                                {{transaction.getAmount()|format_currency('AUD', {fraction_digit: 2})}}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        {% endif %}
+    </body>
+</html>

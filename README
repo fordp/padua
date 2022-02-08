@@ -1,0 +1,22 @@
+Glen Muras
+07/02/2022
+
+
+The aim of this application is to enable the user to upload a csv of transactions.
+
+I chose to use Symfony to enable me to easily adhere to the MVC pattern. It also
+enabled easy View templating and formatting. It has built in Entity creation,
+which can be changed easily to not access a database. There is a built in server
+to enable easy development, instead of running up a web server.
+
+Using Symfony meant a whole lot of boiler plate code did not need to be written 
+as well, as that is contained in the framework. This reduces development time.
+
+
+Installation and running:
+Extract or git clone the files onto a system with php7+.
+
+cd padua-csv or bank
+symfony server:start
+http://127.0.0.1:8000/
+
